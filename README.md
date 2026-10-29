@@ -1,5 +1,5 @@
 # Customer Churn & Retention Analysis
-veDemo -lihttps://customerchurnretentionanalysis-app.streamlit.app
+liveDemo - lihttps://customerchurnretentionanalysis-app.streamlit.app
 
 Interactive customer churn analysis dashboard built with Python, Pandas, Seaborn, Matplotlib, and Streamlit.
 
