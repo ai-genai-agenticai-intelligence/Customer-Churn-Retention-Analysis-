@@ -1,5 +1,7 @@
 # Customer Churn & Retention Analysis
+
 https://customer-churn-retention-analysis-app.streamlit.app
+
 Interactive customer churn analysis dashboard built with Python, Pandas, Seaborn, Matplotlib, and Streamlit.
 
 ## Project Architecture
@@ -11,14 +13,12 @@ flowchart TD
 	C --> D[Churn_Modelling.csv]
 	D --> E[Load and clean data]
 	E --> F[Drop identifier columns]
-	F --> G[Encode Geography and Gender]
+	F --> G[Preserve readable customer attributes]
 	G --> H[EDA dashboard]
-	H --> H1[Dataset preview]
-	H --> H2[Churn distribution]
-	H --> H3[Age comparison]
-	H --> H4[Correlation heatmap]
-	H --> H5[Churn driver charts]
-	H --> H6[Age-range filter]
+	H --> H1[Retention KPIs]
+	H --> H2[Churn and age profiles]
+	H --> H3[Segment churn drivers]
+	H --> H4[Customer data explorer]
 ```
 
 ## Directory Structure
@@ -40,21 +40,22 @@ Customer Churn & Retention Analysis Project/
 1. The root `app.py` forwards execution to the nested application file.
 2. The dashboard loads `Churn_Modelling.csv` with Pandas.
 3. `RowNumber`, `CustomerId`, and `Surname` are removed because they are identifiers, not useful analytical features.
-4. `Geography` and `Gender` are converted to numeric dummy variables.
-5. Streamlit renders the cleaned data and exploratory visualizations.
-6. The age slider filters the data and refreshes the churn distribution chart.
+4. The dashboard keeps customer attributes readable and excludes personal identifiers.
+5. Sidebar filters update the metrics, visualizations, and data table together.
+6. Customers can review and download the filtered data as a CSV.
 
 The cleaned dataset is cached with `st.cache_data` so repeated Streamlit reruns do not reload the CSV unnecessarily.
 
 ## Dashboard Features
 
-- Dataset preview
-- Retained versus churned customer distribution
-- Age distribution comparison for churned and retained customers
-- Feature correlation heatmap
-- Churn rate by active membership
-- Churn rate by number of products
-- Interactive age-range filtering
+- Responsive dashboard with customer, churn, and retention KPIs
+- Filters for region, age range, membership status, and product count
+- Dataset-backed highlights for higher-churn age, region, and membership segments
+- Retained-versus-churned split and age profile comparison
+- Churn-rate comparisons by age group, region, membership, product count, gender, and balance status, with segment sample sizes
+- Filtered customer data table with CSV download
+- Source data quality checks and a descriptive-analysis caveat
+- Personal identifiers excluded from the customer data view
 
 ## Setup
 
@@ -88,6 +89,8 @@ Then open `http://localhost:8501` in a browser.
 - Correlation analysis
 - Retention strategy visualizations
 - Optional Logistic Regression experiment with a train-test split and classification report
+
+The notebook loads the CSV from the project directory (or its nested application directory), rather than relying on a machine-specific absolute path. In the 10,000-row dataset, 2,037 customers have churned (20.37%); there are no missing values or duplicate rows. Germany has the highest regional churn rate (32.44%), customers aged 46–55 have the highest age-group rate (50.57%), and inactive members churn at 26.85%. These are descriptive associations, not causal findings. Smaller groups—especially customers with three or four products—should be interpreted with their sample sizes in mind.
 
 The current Streamlit application is an EDA dashboard. It does not currently expose the notebook's Logistic Regression model as a live prediction endpoint or form.
 
